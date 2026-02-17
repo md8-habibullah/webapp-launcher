@@ -7,12 +7,12 @@
       description: "Personal Portfolio",
     },
     {
-      name: "IT Tools",
-      url: "https://it-tools.habibullah.dev",
-      description: "Developer Utilities",
+      name: "Some Kits",
+      url: "https://habibullah.dev/kits",
+      description: "Daily Useges Kits",
     },
     {
-      name: "Whiteboard",
+      name: "Whiteboard Draw",
       url: "https://draw.habibullah.dev",
       description: "Visual Collaboration",
     },
@@ -21,6 +21,12 @@
       url: "https://ledger.habibullah.dev",
       description: "Finance Tracking",
     },
+    {
+      name: "IT Tools (dev)",
+      url: "https://it-tools.habibullah.dev",
+      description: "Developer Utilities",
+    },
+
   ];
 
   class HabibullahLauncher extends HTMLElement {
@@ -126,13 +132,13 @@
             z-index: 2;
             flex-shrink: 0;
           }
-          
+           
           .launcher-btn:hover {
             background: #2a323c;
             width: 52px; /* Slight peek */
             color: #fff;
           }
-          
+           
           /* Active State: Becomes Red Close Button */
           .launcher-btn.active {
             background: #ef4444;
@@ -245,9 +251,9 @@
           <div class="launcher-btn">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle></svg>
           </div>
-          
+           
           <div class="launcher-popup">
-            <div class="popup-header">Tools & Kits</div>
+            <div class="popup-header">Services, Tools & Kits</div>
             <div class="app-list">
               ${appsHtml}
             </div>
@@ -257,12 +263,26 @@
     }
 
     addEventListeners() {
+      // 1. Click Listener (kept as fallback)
       this.shadowRoot
         .querySelector(".launcher-btn")
         .addEventListener("click", (e) => {
           e.stopPropagation();
           this.toggle();
         });
+        
+      // 2. NEW: Hover Listeners on the container
+      const container = this.shadowRoot.querySelector(".launcher-container");
+
+      container.addEventListener("mouseenter", () => {
+        if (!this.isOpen) this.toggle();
+      });
+
+      container.addEventListener("mouseleave", () => {
+        this.close();
+      });
+
+      // 3. Other listeners (backdrop, links, copy)
       this.shadowRoot
         .querySelector(".backdrop")
         .addEventListener("click", () => this.close());
