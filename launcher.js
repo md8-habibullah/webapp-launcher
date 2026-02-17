@@ -2,9 +2,9 @@
   // CONFIGURATION: Add your apps here
   const APPS = [
     {
-      name: "Global ID",
+      name: "HABIBULLAH",
       url: "https://habibullah.dev",
-      description: "My Portfolio",
+      description: "Personal Portfolio",
     },
     {
       name: "IT Tools",
@@ -26,7 +26,7 @@
   class HabibullahLauncher extends HTMLElement {
     constructor() {
       super();
-      this.attachShadow({ mode: "open" }); // This isolates your CSS!
+      this.attachShadow({ mode: "open" });
       this.isOpen = false;
     }
 
@@ -35,20 +35,33 @@
       this.addEventListeners();
     }
 
+    cleanDomain(url) {
+      return url.replace(/^https?:\/\//, "").replace(/^www\./, "");
+    }
+
     toggle() {
       this.isOpen = !this.isOpen;
-      const popup = this.shadowRoot.querySelector(".launcher-popup");
+      const container = this.shadowRoot.querySelector(".launcher-container");
       const btn = this.shadowRoot.querySelector(".launcher-btn");
+      const backdrop = this.shadowRoot.querySelector(".backdrop");
 
       if (this.isOpen) {
-        popup.classList.add("visible");
+        container.classList.add("open");
         btn.classList.add("active");
+        backdrop.classList.add("visible");
+        // Cross Icon
         btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
       } else {
-        popup.classList.remove("visible");
+        container.classList.remove("open");
         btn.classList.remove("active");
-        btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>`;
+        backdrop.classList.remove("visible");
+        // Circle/Menu Icon
+        btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle></svg>`;
       }
+    }
+
+    close() {
+      if (this.isOpen) this.toggle();
     }
 
     copyToClipboard(text, btnElement) {
@@ -57,138 +70,166 @@
         btnElement.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
         setTimeout(() => {
           btnElement.innerHTML = originalIcon;
-        }, 2000);
+          this.close();
+        }, 600);
       });
     }
 
     render() {
-      // Modern Glassmorphism CSS
       const styles = `
         <style>
           :host {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 2147483647; /* Maximum Z-Index */
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            top: 25%;
+            right: 0;
+            z-index: 2147483647;
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            pointer-events: none; /* Let clicks pass through when closed */
           }
-          
-          /* The Floating Button */
+
+          .backdrop {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            display: none;
+            z-index: -1;
+            pointer-events: auto;
+          }
+          .backdrop.visible { display: block; }
+
+          /* MAIN CONTAINER: Handles the layout */
+          .launcher-container {
+            display: flex;
+            align-items: flex-start;
+            flex-direction: row-reverse; /* Button on right, content extends left */
+            pointer-events: auto;
+            position: relative;
+            /* Move slightly right to hide the flat edge of button if needed, currently 0 */
+            right: 0; 
+          }
+
+          /* BUTTON */
           .launcher-btn {
-            width: 56px;
-            height: 56px;
-            background: #0f172a;
-            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            background: #1d232a;
+            border-radius: 50% 0 0 50%;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: -4px 0 15px rgba(0,0,0,0.3);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: rgba(255,255,255,0.8);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-right: none;
+            position: relative;
+            z-index: 2;
+            flex-shrink: 0;
           }
           
           .launcher-btn:hover {
-            transform: scale(1.05);
-            background: #1e293b;
+            background: #2a323c;
+            width: 52px; /* Slight peek */
+            color: #fff;
           }
           
+          /* Active State: Becomes Red Close Button */
           .launcher-btn.active {
             background: #ef4444;
-            transform: rotate(90deg);
+            color: white;
+            width: 48px;
+            border-color: #ef4444;
+            box-shadow: none; /* Remove shadow to blend with popup */
           }
 
-          /* The Popup Container */
+          /* POPUP MENU */
           .launcher-popup {
-            position: absolute;
-            bottom: 70px;
-            right: 0;
             width: 300px;
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 16px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-            padding: 8px;
+            background: rgba(29, 35, 42, 0.95); /* More solid for better read */
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-right: none; /* Connects to button */
+            border-radius: 16px 0 16px 16px; /* Top-right square to touch button */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            padding: 16px;
+            
+            /* Animation Logic: Extend from Right */
+            transform-origin: right center;
+            transform: scaleX(0); 
             opacity: 0;
-            transform: translateY(10px) scale(0.95);
-            pointer-events: none;
-            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-            transform-origin: bottom right;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            
+            /* Positioning logic */
+            margin-right: -1px; /* Overlap border slightly */
+            margin-top: 0px; 
           }
 
-          .launcher-popup.visible {
+          /* When Container is Open */
+          .launcher-container.open .launcher-popup {
+            transform: scaleX(1);
             opacity: 1;
-            transform: translateY(0) scale(1);
-            pointer-events: all;
           }
 
-          /* App Items */
-          .app-item {
-            display: flex;
-            align-items: center;
-            padding: 12px;
-            border-radius: 8px;
-            color: #fff;
-            text-decoration: none;
-            transition: background 0.2s;
-            gap: 12px;
+          .popup-header {
+            font-size: 13px;
+            font-weight: 700;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            padding-left: 4px;
+            white-space: nowrap; /* Prevent wrap during anim */
           }
 
-          .app-item:hover {
-            background: rgba(255,255,255,0.05);
-          }
-
-          .app-info {
-            flex: 1;
+          .app-list {
             display: flex;
             flex-direction: column;
+            gap: 8px;
+            overflow: hidden; /* Hide content during scale anim */
           }
 
-          .app-name {
-            font-weight: 600;
-            font-size: 14px;
-            color: #f1f5f9;
-          }
-
-          .app-desc {
-            font-size: 11px;
-            color: #94a3b8;
-            margin-top: 2px;
-          }
-
-          /* Copy Button */
-          .copy-btn {
-            background: transparent;
-            border: none;
-            color: #64748b;
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 6px;
-            transition: all 0.2s;
+          .app-row {
             display: flex;
             align-items: center;
+            gap: 10px;
+            padding: 8px;
+            border-radius: 12px;
+            transition: background 0.2s;
           }
+          .app-row:hover { background: rgba(255,255,255,0.08); }
 
-          .copy-btn:hover {
-            background: rgba(255,255,255,0.1);
-            color: #fff;
+          .app-link {
+            flex: 1;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
           }
+          .app-name { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 2px; }
+          .app-desc { font-size: 12px; color: rgba(255,255,255,0.5); }
+          .app-domain { font-size: 10px; color: #10b981; font-family: monospace; margin-top: 2px; }
+
+          .copy-btn {
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.05);
+            color: rgba(255,255,255,0.6);
+            cursor: pointer;
+            width: 36px; height: 36px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+          }
+          .copy-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
         </style>
       `;
 
-      // Generate App List HTML
       const appsHtml = APPS.map(
         (app) => `
-        <div class="app-row" style="display:flex; align-items:center;">
-          <a href="${app.url}" class="app-item" style="flex:1;">
-             <div style="width:32px; height:32px; background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:12px;">${app.name.substring(0, 2).toUpperCase()}</div>
-            <div class="app-info">
-              <span class="app-name">${app.name}</span>
-              <span class="app-desc">${app.description}</span>
-            </div>
+        <div class="app-row">
+          <a href="${app.url}" target="_blank" class="app-link link-item">
+            <span class="app-name">${app.name}</span>
+            <span class="app-desc">${app.description}</span>
+            <span class="app-domain">${this.cleanDomain(app.url)}</span>
           </a>
           <button class="copy-btn" title="Copy Link" data-link="${app.url}">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
@@ -199,12 +240,18 @@
 
       this.shadowRoot.innerHTML = `
         ${styles}
-        <div class="launcher-popup">
-          <div style="padding: 8px 12px; font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Habibullah Apps</div>
-          ${appsHtml}
-        </div>
-        <div class="launcher-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        <div class="backdrop"></div>
+        <div class="launcher-container">
+          <div class="launcher-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle></svg>
+          </div>
+          
+          <div class="launcher-popup">
+            <div class="popup-header">Tools & Kits</div>
+            <div class="app-list">
+              ${appsHtml}
+            </div>
+          </div>
         </div>
       `;
     }
@@ -212,24 +259,33 @@
     addEventListeners() {
       this.shadowRoot
         .querySelector(".launcher-btn")
-        .addEventListener("click", () => this.toggle());
+        .addEventListener("click", (e) => {
+          e.stopPropagation();
+          this.toggle();
+        });
+      this.shadowRoot
+        .querySelector(".backdrop")
+        .addEventListener("click", () => this.close());
+
+      const links = this.shadowRoot.querySelectorAll(".link-item");
+      links.forEach((link) => {
+        link.addEventListener("click", () => this.close());
+      });
 
       const copyButtons = this.shadowRoot.querySelectorAll(".copy-btn");
       copyButtons.forEach((btn) => {
         btn.addEventListener("click", (e) => {
-          e.stopPropagation(); // Don't close popup
+          e.stopPropagation();
           this.copyToClipboard(btn.dataset.link, btn);
         });
       });
     }
   }
 
-  // Register the custom element
   if (!customElements.get("habibullah-launcher")) {
     customElements.define("habibullah-launcher", HabibullahLauncher);
   }
 
-  // Auto-inject into body
   const launcher = document.createElement("habibullah-launcher");
   document.body.appendChild(launcher);
 })();
