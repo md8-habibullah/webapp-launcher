@@ -31,6 +31,7 @@
       url: "https://status.habibullah.dev",
       description: "Uptime & Incident Monitoring",
     },
+
   ];
 
   class HabibullahLauncher extends HTMLElement {
@@ -90,7 +91,7 @@
         <style>
           :host {
             position: fixed;
-            top: 25%;
+            top: 15%;
             right: 0;
             z-index: 2147483647;
             font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -195,7 +196,26 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
-            overflow: hidden; /* Hide content during scale anim */
+            /* NEW: Allow scrolling for many tools */
+            max-height: 60vh; 
+            overflow-y: auto; 
+            padding-right: 6px; /* Space so scrollbar doesn't touch text */
+          }
+
+          /* NEW: Custom Scrollbar Styling to match your dark theme */
+          .app-list::-webkit-scrollbar {
+            width: 5px;
+          }
+          .app-list::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+          }
+          .app-list::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+          }
+          .app-list::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
           }
 
           .app-row {
