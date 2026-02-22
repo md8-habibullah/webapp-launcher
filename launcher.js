@@ -26,7 +26,6 @@
       url: "https://it-tools.habibullah.dev",
       description: "Developer Utilities",
     },
-
   ];
 
   class HabibullahLauncher extends HTMLElement {
@@ -263,26 +262,26 @@
     }
 
     addEventListeners() {
-      // 1. Click Listener (kept as fallback)
-      this.shadowRoot
-        .querySelector(".launcher-btn")
-        .addEventListener("click", (e) => {
-          e.stopPropagation();
-          this.toggle();
-        });
-        
-      // 2. NEW: Hover Listeners on the container
+      const btn = this.shadowRoot.querySelector(".launcher-btn");
       const container = this.shadowRoot.querySelector(".launcher-container");
 
-      container.addEventListener("mouseenter", () => {
+      // 1. OPEN: Only trigger when hovering exactly over the button
+      btn.addEventListener("mouseenter", () => {
         if (!this.isOpen) this.toggle();
       });
 
+      // 2. CLOSE: Trigger when the mouse leaves the entire component (button + popup)
       container.addEventListener("mouseleave", () => {
         this.close();
       });
 
-      // 3. Other listeners (backdrop, links, copy)
+      // 3. Optional Mobile Fallback: Keep click just in case
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        this.toggle();
+      });
+
+      // 4. Other listeners (backdrop, links, copy)
       this.shadowRoot
         .querySelector(".backdrop")
         .addEventListener("click", () => this.close());
@@ -293,10 +292,10 @@
       });
 
       const copyButtons = this.shadowRoot.querySelectorAll(".copy-btn");
-      copyButtons.forEach((btn) => {
-        btn.addEventListener("click", (e) => {
+      copyButtons.forEach((copyBtn) => {
+        copyBtn.addEventListener("click", (e) => {
           e.stopPropagation();
-          this.copyToClipboard(btn.dataset.link, btn);
+          this.copyToClipboard(copyBtn.dataset.link, copyBtn);
         });
       });
     }
