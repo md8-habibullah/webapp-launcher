@@ -26,6 +26,11 @@
       url: "https://it-tools.habibullah.dev",
       description: "Developer Utilities",
     },
+    {
+      name: "System Status",
+      url: "https://status.habibullah.dev",
+      description: "Uptime & Incident Monitoring",
+    },
   ];
 
   class HabibullahLauncher extends HTMLElement {
