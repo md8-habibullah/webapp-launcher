@@ -124,7 +124,7 @@
             background: #1d232a;
             border-radius: 50% 0 0 50%;
             cursor: pointer;
-            box-shadow: -4px 0 15px rgba(0,0,0,0.3);
+            animation: wave-alert 2s infinite cubic-bezier(0.66, 0, 0, 1); 
             display: flex;
             align-items: center;
             justify-content: center;
@@ -230,6 +230,20 @@
             transition: all 0.2s;
           }
           .copy-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+          @keyframes wave-alert {
+            0% {
+              /* Base shadow + starting wave */
+              box-shadow: -4px 0 15px rgba(0,0,0,0.3), 0 0 0 0 rgba(16, 185, 129, 0.5);
+            }
+            70% {
+              /* Base shadow + expanded transparent wave */
+              box-shadow: -4px 0 15px rgba(0,0,0,0.3), 0 0 0 15px rgba(16, 185, 129, 0);
+            }
+            100% {
+              box-shadow: -4px 0 15px rgba(0,0,0,0.3), 0 0 0 0 rgba(16, 185, 129, 0);
+            }
+          }
         </style>
       `;
 
