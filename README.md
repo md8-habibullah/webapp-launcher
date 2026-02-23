@@ -123,8 +123,15 @@ const APPS = [
 ### Purging CDN Cache
 
 If you update the code but don't see changes on your site, you can force-purge the cache here:
-[https://www.jsdelivr.com/tools/purge]()
-Enter: `https://cdn.jsdelivr.net/gh/md8-habibullah/webapp-launcher@main/launcher.js`
+
+Go here : [https://www.jsdelivr.com/tools/purge](https://www.jsdelivr.com/tools/purge) and
+
+Enter: 
+```URL
+https://cdn.jsdelivr.net/gh/md8-habibullah/webapp-launcher@main/launcher.js
+```
+
+OR Try Click : [https://purge.jsdelivr.net/gh/md8-habibullah/webapp-launcher@main/launcher.js](https://purge.jsdelivr.net/gh/md8-habibullah/webapp-launcher@main/launcher.js)
 
 ---
 
