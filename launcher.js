@@ -32,6 +32,11 @@
       description: "Developer Utilities",
     },
     {
+    name: "Free for Dev",
+    url: "https://free-for-dev.habibullah.dev",
+    description: "Free SaaS & PaaS Directory",
+    },
+    {
       name: "System Status",
       url: "https://status.habibullah.dev",
       description: "Uptime & Incident Monitoring",
