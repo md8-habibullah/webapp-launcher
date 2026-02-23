@@ -22,9 +22,19 @@
     description: "Beautiful Code Images",
     },
     {
+    name: "AnyCable Demo",
+    url: "https://any-cable.habibullah.dev/",
+    description: "Real-time WebSocket Communication",
+    },
+    {
       name: "Ledger Tracker",
       url: "https://ledger.habibullah.dev",
       description: "Finance Tracking",
+    },
+    {
+  name: "Collaborative Editor",
+  url: "https://liveblocks.habibullah.dev/",
+  description: "Real-time Collaborative Document Editor",
     },
     {
       name: "IT Tools (dev)",
