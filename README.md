@@ -9,9 +9,10 @@ _(You can replace this link with a screenshot of your widget later)_
 - **Zero Dependencies:** Pure Vanilla JS.
 - **Framework Agnostic:** Works in React, Next.js, Vue, Svelte, or plain HTML.
 - **Shadow DOM Encapsulation:** Styles will never clash with your main site's CSS.
+- **Non-Intrusive:** Proper pointer-events management ensures your site remains fully interactive.
 - **Glassmorphism Design:** Modern, dark-themed UI with blur effects.
-- **Utility First:** Includes "Copy Link" buttons and direct navigation.
-- **Responsive:** optimized for desktop and mobile edge-cases.
+- **Utility First:** Quick copy-to-clipboard functionality for all links.
+- **Responsive:** Optimized for desktop and mobile viewports.
 
 ---
 
@@ -126,7 +127,8 @@ If you update the code but don't see changes on your site, you can force-purge t
 
 Go here : [https://www.jsdelivr.com/tools/purge](https://www.jsdelivr.com/tools/purge) and
 
-Enter: 
+Enter:
+
 ```URL
 https://cdn.jsdelivr.net/gh/md8-habibullah/webapp-launcher@main/launcher.js
 ```
