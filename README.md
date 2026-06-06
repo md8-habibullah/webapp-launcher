@@ -1,22 +1,22 @@
-# WebApp Launcher Widget 🚀
+# WebApp Launcher Widget
 
-A lightweight, drop-in application drawer widget for your personal web ecosystem. Built with Vanilla JavaScript and Web Components, it works seamlessly across **Next.js**, **React**, **Vue**, and **Standard HTML** sites without styling conflicts (thanks to Shadow DOM).
+A high-performance, drop-in application drawer widget for your personal web ecosystem. Built with Vanilla JavaScript and Native Web Components, it works seamlessly across **Next.js**, **React**, **Vue**, and **Standard HTML** sites without styling conflicts thanks to complete Shadow DOM encapsulation.
 
 _(You can replace this link with a screenshot of your widget later)_
 
-## ✨ Features
+## Features
 
-- **Zero Dependencies:** Pure Vanilla JS.
-- **Framework Agnostic:** Works in React, Next.js, Vue, Svelte, or plain HTML.
+- **Zero Dependencies:** Pure Vanilla JS, ultra-lightweight.
+- **Framework Agnostic:** Works flawlessly in React, Next.js, Vue, Svelte, or plain HTML.
 - **Shadow DOM Encapsulation:** Styles will never clash with your main site's CSS.
-- **Non-Intrusive:** Proper pointer-events management ensures your site remains fully interactive.
-- **Glassmorphism Design:** Modern, dark-themed UI with blur effects.
-- **Utility First:** Quick copy-to-clipboard functionality for all links.
-- **Responsive:** Optimized for desktop and mobile viewports.
+- **Deep Digital Ecosystem Theme:** Features a premium dark slate (`#20272c`) glassmorphism base with vibrant mint green (`#34d399`) accents and hover states.
+- **Universal 10% Floating Layout:** The widget universally anchors exactly 10% (`10vh`) from the top of the screen. On desktop, it acts as a sleek floating side-panel; on mobile, it elegantly spans to leave an exact 8% gap at the bottom.
+- **Flush App Drawer Trigger:** Uses a modern 4-box grid (2x2) icon housed in an edge-attached pill button (`border-radius: 24px 0 0 24px`).
+- **Utility First:** Fast copy-to-clipboard functionality for all application links with visual feedback.
 
 ---
 
-## ⚡ Quick Start (The "One-Liner")
+## Quick Start (The "One-Liner")
 
 The fastest way to add the launcher to your site is via **jsDelivr CDN**. This serves the latest version directly from your `main` branch.
 
@@ -93,18 +93,20 @@ const App = () => {
 
 ---
 
-## 🛠️ Configuration & Customization
+## Configuration & Customization
 
-The widget is currently self-contained. To change the links or the "Tools & Kits" list, you need to update the source code directly.
+The widget is currently self-contained. To change the links or the app list, you need to update the source code directly.
 
 1. **Clone the repo:**
 
 ```bash
 git clone https://github.com/md8-habibullah/webapp-launcher.git
-
 ```
 
-2. **Edit `launcher.js`:**
+2. **Test Locally:**
+   Open `index.html` in your browser. It includes a beautiful mock website layout (`#20272c` theme) specifically designed to test the widget's glassmorphism and floating layout across mobile, tablet, and desktop viewports.
+
+3. **Edit `launcher.js`:**
    Look for the `APPS` constant at the top of the file:
 
 ```javascript
@@ -118,7 +120,7 @@ const APPS = [
 ];
 ```
 
-3. **Push changes:**
+4. **Push changes:**
    Once you push to GitHub, the **jsDelivr** link will automatically update (it might take a few minutes to clear the cache).
 
 ### Purging CDN Cache
@@ -137,7 +139,7 @@ OR Try Click : [https://purge.jsdelivr.net/gh/md8-habibullah/webapp-launcher@mai
 
 ---
 
-## 🎨 Tech Stack
+## Tech Stack
 
 - **Language:** JavaScript (ES6+)
 - **Component Model:** Native Web Components (`HTMLElement`, `customElements`)
